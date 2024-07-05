@@ -26,4 +26,4 @@ jobs:
 
       - name: Execute deploy script
         run: |
-          ls
+          ssh root@80.76.60.204 'bash -s' < ../deploy.sh 
