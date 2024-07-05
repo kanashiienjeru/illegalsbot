@@ -25,4 +25,4 @@ jobs:
 
       - name: Execute deploy script
         run: |
-          ssh root@80.76.60.204 'bash -s' < ./bot-ts/deploy.sh
+          ssh root@80.76.60.204 'bash -s' < ./~/bot-ts/deploy.sh
