@@ -15,7 +15,7 @@ export const commands: Commands = {
     "/access": userController.access,
     "/setleader": userController.setLeader,
     "/removeleader": userController.removeLeader,
-    "/setzam": leaderController.setZam,
+    "/setzam": leaderController.setZam, 
     "/delzam": leaderController.delZam,
     "/myzams": leaderController.myZams,
     "/leaders": userController.leaders
