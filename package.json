@@ -1,0 +1,26 @@
+{
+  "name": "bot-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "nodemon --exec \"node --loader ts-node/esm src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.10.2",
+    "node-cron": "^3.0.3",
+    "nodemon": "^3.1.4",
+    "typeorm": "^0.3.20",
+    "uuid": "^10.0.0",
+    "vk-io": "^4.9.1"
+  }
+}
