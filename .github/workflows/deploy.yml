@@ -25,4 +25,4 @@ jobs:
 
       - name: Execute deploy script
         run: |
-          ./deploy.sh
+          ls
