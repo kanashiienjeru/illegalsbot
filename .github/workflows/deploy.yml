@@ -17,10 +17,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
+      - name: Add server to known hosts
+        run: |
+          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
       - name: Copy files to server
         run: |
-          scp -r . root@80.76.60.204:root/bot-ts
+          scp -r . root@80.76.60.204:~/bot-ts
 
       - name: Execute deploy script
         run: |
-          ssh root@80.76.60.204 'bash -s' < /root/bot-ts/deploy.sh
+          ssh root@80.76.60.204 'bash -s' < ~/bot-ts/deploy.sh
