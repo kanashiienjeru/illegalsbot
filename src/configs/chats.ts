@@ -26,7 +26,7 @@ export const chats = [
       title: 'Kingman | Illegals organizations'
   }
 ]
-
+ 
 export const userChats = {
   leadersGhetto: {
       id: 1,
