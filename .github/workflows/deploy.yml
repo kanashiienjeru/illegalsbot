@@ -23,7 +23,5 @@ jobs:
           rm: true
           source: "./*"
           target: "bot-ts/"
-
-      - name: Execute deploy script
-        run: |
-          ssh root@80.76.60.204 'bash -s' < ./deploy.sh 
+          run: |
+            ls
