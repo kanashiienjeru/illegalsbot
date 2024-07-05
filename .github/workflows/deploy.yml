@@ -12,10 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Run a multi-line script
+      - name: Copy files to server
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          scp -r . root@80.76.60.204:/root/bot-ts
+
+      - name: Execute deploy script
+        run: |
+          ssh root@80.76.60.204 'bash -s' < /root/bot-ts/deploy.sh
