@@ -10,21 +10,16 @@ jobs:
   my_build_job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Add server to known hosts
-        run: |
-          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Copy files to server
-        run: |
-          scp -r . root@80.76.60.204:~/bot-ts
-
-      - name: Execute deploy script
-        run: |
-          ssh root@80.76.60.204 'bash -s' < ~/bot-ts/deploy.sh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          rm: true
+          source: "./*"
+          target: "bot-ts/"
