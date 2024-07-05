@@ -20,8 +20,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          rm: true
           source: "./*"
           target: "bot-ts/"
-          run: |
-            ls
