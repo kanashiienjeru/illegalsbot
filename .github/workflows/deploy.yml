@@ -19,7 +19,7 @@ jobs:
 
       - name: Copy files to server
         run: |
-          scp -r . root@80.76.60.204:/root/bot-ts
+          scp -r . root@80.76.60.204:root/bot-ts
 
       - name: Execute deploy script
         run: |
