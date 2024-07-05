@@ -20,10 +20,9 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          rm: true
           source: "./*"
           target: "bot-ts/"
 
       - name: Execute deploy script
         run: |
-          ssh root@80.76.60.204 'bash -s' < ../deploy.sh 
+          ssh root@80.76.60.204 'bash -s' < ./deploy.sh 
