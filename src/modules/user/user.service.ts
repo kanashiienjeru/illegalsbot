@@ -47,6 +47,16 @@ class UserService {
 
     if (!users.length) throw new Error('Не удалось найти пользователя по указанной ссылке')
 
+    const dbUser = await this.userRepository.findOneBy({ vk: users[0].id })
+
+    if (dbUser) {
+      dbUser.isDeputy = false;
+      // @ts-ignore
+      dbUser.gang = null;
+
+      await this.userRepository.save(dbUser)
+    }
+
     const resuljs = await Promise.all(chats.map(async chat => {
       try {
         await userInstance.api.messages.removeChatUser({

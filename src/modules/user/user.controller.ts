@@ -1,8 +1,9 @@
 import { Keyboard } from "vk-io";
-import { organizationTags } from "../../configs/chats.js"
+import { organizationTags, userChats } from "../../configs/chats.js"
 import { UserHandlerFunction } from "../../models/index.js"
 import { checkLink, errorHandler, tagByOrg } from "../../utils/index.js"
 import userService from "./user.service.js"
+import { groupInstance, userInstance } from "../../index.js";
 
 
 
@@ -40,7 +41,6 @@ class UserController {
       if (!USER_INPUT) throw Error('Неверно указана ссылка на пользователя ( https://vk.com/ )')
       if (!Object.keys(organizationTags).includes(tag)) throw Error('Неверно указан тэг ( LG, LM, G, M )')
 
-      console.log('qq')
       const result = await userService.kick(USER_INPUT, organizationTags[tag])
       let message = 'Статусы исключений из чатов: \n'
       result.forEach(result => message += `${result.success ? `✅ ${result.chat.title}` : `❌ ${result.chat.title}: ${errorHandler(result.error)}`} \n`)

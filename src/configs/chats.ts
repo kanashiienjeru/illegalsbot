@@ -27,7 +27,7 @@ export const chats = [
   }
 ]
 
-export const userChats = {
+export const userChats: any = {
   leadersGhetto: {
       id: 1,
       peerId: 2000000001,
@@ -52,15 +52,6 @@ export const userChats = {
       id: 3,
       peerId: 2000000003,
       title: 'Курилка'
-  },
-  admins: {
-      id: 5,
-      peerId: 2000000005,
-      title: 'Админская'
-  },
-  test: {
-      id: 49,
-      peerId: 2000000049
   }
 }
 
@@ -78,5 +69,4 @@ export const organizationTags: OrganizationTags = {
   LM: [userChats.leadersMafia, userChats.smoking, userChats.bizwars],
   G: [userChats.smoking, userChats.captures],
   M: [userChats.smoking, userChats.bizwars],
-  T: [userChats.admins]
 }
