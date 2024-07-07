@@ -12,8 +12,6 @@ class LeaderController {
       const [link] = context.arguments
       const user = context.user as User
 
-      if (user.level >= 1) throw Error('Пользователь является администратором')
-
       const USER_INPUT = checkLink(link)
       if (!USER_INPUT) throw Error('Неверно указана ссылка на пользователя ( https://vk.com/ )')
 
@@ -43,8 +41,8 @@ class LeaderController {
     const USER_INPUT = checkLink(link)
     if (!USER_INPUT) throw Error('Неверно указана ссылка на пользователя ( https://vk.com/ )')
 
-      const result = await userService.kick(USER_INPUT, organizationTags[tagByOrg(user.gang.name)])
       await leaderService.delZam(USER_INPUT, user.gang)
+      const result = await userService.kick(USER_INPUT, organizationTags[tagByOrg(user.gang.name)])
 
       let message = 'Статусы исключений из чатов: \n'
       result.forEach(result => message += `${result.success ? `✅ ${result.chat.title}` : `❌ ${result.chat.title}: ${errorHandler(result.error)}`} \n`)
