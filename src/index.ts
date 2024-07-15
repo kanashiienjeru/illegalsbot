@@ -6,7 +6,6 @@ import { executeMiddlewares } from './utils/executeMiddleware'
 import AppDataSource from './configs/database'
 import { imap } from './configs/mail'
 import { processNewMail } from './utils/mail'
-import puppeteer from 'puppeteer'
 
 dotenv.config()
 
