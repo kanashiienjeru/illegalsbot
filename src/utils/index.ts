@@ -1,4 +1,5 @@
-import { userInstance } from "../index.js";
+import { userInstance } from "..";
+
 
 export const checkLink = (link: string) => {
   if (link.includes('vk.com/')) {
@@ -14,6 +15,12 @@ export const checkLink = (link: string) => {
 
 
   return false
+}
+
+export const extractLink = (text: string) => {
+  const regex = /https?:\/\/[^\s]+/;
+  const match = text.match(regex);
+  return match ? match[0] : null;
 }
 
 // @ts-ignore

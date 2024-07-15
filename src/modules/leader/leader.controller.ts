@@ -1,9 +1,9 @@
-import { organizationTags } from "../../configs/chats.js"
-import { User } from "../../entities/user.entity.js"
-import { UserHandlerFunction } from "../../models/index.js"
-import { checkLink, errorHandler, tagByOrg } from "../../utils/index.js"
-import userService from "../user/user.service.js"
-import leaderService from "./leader.service.js"
+import { organizationTags } from "../../configs/chats"
+import { User } from "../../entities/user.entity"
+import { UserHandlerFunction } from "../../models/index"
+import { checkLink, errorHandler, tagByOrg } from "../../utils/index"
+import userService from "../user/user.service"
+import leaderService from "./leader.service"
 
 class LeaderController {
   setZam: UserHandlerFunction = async (context) => {

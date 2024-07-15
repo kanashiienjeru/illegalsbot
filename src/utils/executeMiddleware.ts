@@ -1,6 +1,6 @@
 import { groupInstance } from "..";
-import { commands } from "../configs/commands.js";
-import middlewares from "../middlewares/middlewares.js";
+import { commands } from "../configs/commands";
+import middlewares from "../middlewares/middlewares";
 
 export async function executeMiddlewares(context: any, next: any) {
   middlewares.commandParser(context, next, commands)
@@ -12,7 +12,6 @@ export async function executeMiddlewares(context: any, next: any) {
       if (!result) return 
     }
   } else {
-    console.log('не команда')
     next()
   }
 

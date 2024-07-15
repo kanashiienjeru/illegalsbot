@@ -1,15 +1,13 @@
 import { ContextDefaultState, MessageContext } from "vk-io"
-import AppDataSource from "../configs/database.js"
-import { Gang } from "../entities/gang.entity.js"
-import { User } from "../entities/user.entity.js"
-import { NO_ACCESS_MESSAGE } from "../configs/messages.js"
-import { Commands } from "../models/index.js"
+import AppDataSource from "../configs/database"
+import { User } from "../entities/user.entity"
+import { NO_ACCESS_MESSAGE } from "../configs/messages"
+import { Commands } from "../models/index"
 
 class Middlewares {
   private userRepository = AppDataSource.getRepository(User)
 
   public commandParser(context: MessageContext<ContextDefaultState> & object, next: Function, commands: Commands) {
-    console.log('проверка на команду')
     if (!context.text) return false
     const commandArray = context.text.split(' ')
 
@@ -26,7 +24,6 @@ class Middlewares {
   }
 
   public checkAccess = async(context: MessageContext<ContextDefaultState> & object, next: Function) => {
-    console.log('проверка на админа')
     const user = await this.userRepository.findOne({ where: { vk: context.senderId }, relations: { gang: true }})
     if (!user) return false
 
@@ -34,14 +31,13 @@ class Middlewares {
 
     const isApproved = user.level >= context.command.access
 
-    if (!isApproved) await context.send(NO_ACCESS_MESSAGE)
+    if (!isApproved) throw Error('Нет доступа')
 
     return isApproved
     
   }
 
   public checkDeputy = async (context: MessageContext<ContextDefaultState> & object, next: Function) => {
-    console.log('проверка на зама')
     const user = await this.userRepository.findOne({ where: { vk: context.senderId}, relations: { gang: true }})
     if (!user) return false
 
@@ -53,7 +49,6 @@ class Middlewares {
   }
 
   public checkLeader = async (context: MessageContext<ContextDefaultState> & object, next: Function) => {
-    console.log('проверка на лидера')
     const user = await this.userRepository.findOne({where: { vk: context.senderId }, relations: { gang: true }})
     if (!user) return false
 

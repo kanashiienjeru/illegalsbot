@@ -1,13 +1,13 @@
 import { ContextDefaultState, MessageContext } from "vk-io";
-import AppDataSource from "../../configs/database.js";
-import { User } from "../../entities/user.entity.js";
-import { groupInstance, userInstance } from "../../index.js";
-import { Chat } from "../../models/index.js";
-import { errorHandler, tagByOrg } from "../../utils/index.js";
-import { Gang } from "../../entities/gang.entity.js";
-import { organizationTags } from "../../configs/chats.js";
+import AppDataSource from "../../configs/database";
+import { User } from "../../entities/user.entity";
+import { groupInstance, userInstance } from "../../index";
+import { Chat } from "../../models/index";
+import { errorHandler, tagByOrg } from "../../utils/index";
+import { Gang } from "../../entities/gang.entity";
+import { organizationTags } from "../../configs/chats";
 import { LessThan, LessThanOrEqual, MoreThan } from "typeorm";
-import leaderService from "../leader/leader.service.js";
+import leaderService from "../leader/leader.service";
 
 class UserService {
   private userRepository = AppDataSource.getRepository(User)

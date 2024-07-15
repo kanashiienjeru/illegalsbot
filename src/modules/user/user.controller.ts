@@ -1,9 +1,10 @@
 import { Keyboard } from "vk-io";
-import { organizationTags, userChats } from "../../configs/chats.js"
-import { UserHandlerFunction } from "../../models/index.js"
-import { checkLink, errorHandler, tagByOrg } from "../../utils/index.js"
-import userService from "./user.service.js"
-import { groupInstance, userInstance } from "../../index.js";
+import { organizationTags, userChats } from "../../configs/chats"
+import { UserHandlerFunction } from "../../models/index"
+import { checkLink, errorHandler, tagByOrg } from "../../utils/index"
+import userService from "./user.service"
+import { commands } from "../../configs/commands";
+import { User } from "../../entities/user.entity";
 
 
 
@@ -130,6 +131,23 @@ class UserController {
       message += `Всего лидеров: ${count}`
 
       await context.send(message)
+    } catch (error: any) {
+      return error ? await context.send('❌ ' + error.message) : await context.send('❌ Произошла ошибка при получении списка лидеров')
+    }
+  }
+
+  
+  public help: UserHandlerFunction = async (context) => {
+    try {
+      const user = context.user as User
+      let message = `✌ Список всех доступных команд ✌ \n \n`
+      Object.keys(commands).forEach(command => {
+        if (commands[command].access <= user.level)
+           message += `ツ ${command}: ${commands[command].description} \n \n`
+      })
+
+      await context.send(message)
+      
     } catch (error: any) {
       return error ? await context.send('❌ ' + error.message) : await context.send('❌ Произошла ошибка при получении списка лидеров')
     }

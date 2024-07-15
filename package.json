@@ -3,19 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "dev": "nodemon --exec \"node --loader ts-node/esm src/index.ts",
+    "dev": "nodemon src/index.ts",
     "start": "node dist/index.js"
   },
   "devDependencies": {
+    "@types/imap": "^0.8.40",
+    "@types/mailparser": "^3.4.4",
     "@types/node": "^20.14.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "imap": "^0.8.19",
+    "mailparser": "^3.7.1",
     "mysql2": "^3.10.2",
     "node-cron": "^3.0.3",
     "nodemon": "^3.1.4",

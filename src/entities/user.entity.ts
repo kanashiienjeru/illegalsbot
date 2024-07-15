@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Gang } from "./gang.entity.js";
+import { Gang } from "./gang.entity";
 
 @Entity()
 export class User {

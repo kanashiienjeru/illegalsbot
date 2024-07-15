@@ -1,10 +1,7 @@
-import { organizationTags } from "../../configs/chats.js";
-import AppDataSource from "../../configs/database.js";
-import { Gang } from "../../entities/gang.entity.js";
-import { User } from "../../entities/user.entity.js";
-import { groupInstance } from "../../index.js";
-import { tagByOrg } from "../../utils/index.js";
-import userService from "../user/user.service.js";
+import AppDataSource from "../../configs/database";
+import { Gang } from "../../entities/gang.entity";
+import { User } from "../../entities/user.entity";
+import { groupInstance } from "../../index";
 
 class LeaderService {
   private userRepository = AppDataSource.getRepository(User)

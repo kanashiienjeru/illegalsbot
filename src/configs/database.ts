@@ -1,8 +1,7 @@
-import mysql from 'mysql2/promise'
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
-import { User } from '../entities/user.entity.js'
-import { Gang } from '../entities/gang.entity.js'
+import { User } from '../entities/user.entity'
+import { Gang } from '../entities/gang.entity'
 
 dotenv.config()
 

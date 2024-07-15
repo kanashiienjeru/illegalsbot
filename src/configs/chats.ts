@@ -1,4 +1,4 @@
-import { OrganizationTags } from "../models/index.js"
+import { OrganizationTags } from "../models/index"
 
 export const chats = [
   {
