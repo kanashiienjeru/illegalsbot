@@ -60,7 +60,7 @@ class LeaderController {
       const user = context.user as User
       const [users, count] = await leaderService.myZams(user.gang)
 
-      let message = `✌ Список заместителей банды ${user.gang.name} ✌ \n`
+      let message = `✌ Список заместителей организации ${user.gang.name} ✌ \n`
       users.forEach(deputy => message += `ツ @id${deputy.vk} (${deputy.name}) \n`)
       message += `Всего заместителей: ${count}`
 
