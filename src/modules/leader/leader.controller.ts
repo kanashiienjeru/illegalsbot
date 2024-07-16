@@ -58,13 +58,27 @@ class LeaderController {
   zams: UserHandlerFunction = async (context) => {
     try {
       const user = context.user as User
-      const [users, count] = await leaderService.zams(context.arguments[0] && user.level >= context.command.access ? context.arguments[0] : user.gang)
 
-      let message = `✌ Список заместителей организации ${user.gang?.name || context.arguments[0]} ✌ \n`
-      users.forEach(deputy => message += `ツ @id${deputy.vk} (${deputy.name}) \n`)
-      message += `Всего заместителей: ${count}`
+      if (user.gang) {
+        const [users, count] = await leaderService.zams(user.gang)
 
-      return await context.send(message)
+        let message = `✌ Список заместителей организации ${user.gang.name} ✌ \n`
+        users.forEach(deputy => message += `ツ @id${deputy.vk} (${deputy.name}) \n`)
+        message += `Всего заместителей: ${count}`
+
+        return await context.send(message)
+
+      }
+
+      if (context.arguments[0] && user.level >= 3) {
+        const [users, count] = await leaderService.zams(context.arguments[0])
+
+        let message = `✌ Список заместителей организации ${context.arguments[0]} ✌ \n`
+        users.forEach(deputy => message += `ツ @id${deputy.vk} (${deputy.name}) \n`)
+        message += `Всего заместителей: ${count}`
+        return await context.send(message)
+      }
+
     } catch (error: any) {
       return error ? await context.send('❌ ' + error.message) : await context.send('❌ Произошла ошибка при получении списка заместителей')
     }

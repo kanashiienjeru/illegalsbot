@@ -62,10 +62,7 @@ class LeaderService {
 
     if (typeof(gang) === 'string') {
       const gangResult = await this.gangRepository.findOneBy({ name: gang })
-
-
       if (!gangResult) throw Error('Не удалось найти указанную организацию')
-
       const result = await this.userRepository.findAndCountBy({ isDeputy: true, gang: gangResult })
       
       return result
