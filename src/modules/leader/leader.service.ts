@@ -59,8 +59,10 @@ class LeaderService {
 
 
   public async zams(gang: Gang | string) {
+
     if (typeof(gang) === 'string') {
       const gangResult = await this.gangRepository.findOneBy({ name: gang })
+
 
       if (!gangResult) throw Error('Не удалось найти указанную организацию')
 
