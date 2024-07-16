@@ -14,7 +14,7 @@ export const commands: Commands = {
     "/removeleader": { description: 'Снятие пользователя с поста лидера \n ✗ Общая форма: /removeleader link ', access: 3, midd: [middlewares.checkAccess, userController.removeLeader] },
     "/setzam": { description: 'Назначить пользователя на пост заместителя в свою организацию \n ✗ Общая форма: /setzam link', access: 0, midd: [middlewares.checkLeader, leaderController.setZam] }, 
     "/delzam": { description: 'Снять пользователя с поста заместителя в своей организации \n ✗ Общая форма: /delzam link', access: 0, midd: [middlewares.checkLeader, leaderController.delZam] },
-    "/zams": { description: 'Просмотр списка заместителей своей организации', access: 0, midd: [middlewares.checkLeader, leaderController.myZams] },
+    "/zams": { description: 'Просмотр списка заместителей своей организации', access: 0, midd: [middlewares.checkLeader, leaderController.zams] },
     "/leaders": { description: 'Просмотр списка лидеров всех нелегальных организаций', access: 0, midd: [userController.leaders] },
     "/help": { description: 'Список всех доступных команд', access: 0, midd: [middlewares.checkAccess, userController.help]}
 

@@ -55,10 +55,10 @@ class LeaderController {
 
   }
 
-  myZams: UserHandlerFunction = async (context, args) => {
+  zams: UserHandlerFunction = async (context) => {
     try {
       const user = context.user as User
-      const [users, count] = await leaderService.myZams(user.gang)
+      const [users, count] = await leaderService.zams(context.arguments[0] && user.level >= 2 ? context.arguments[0] : user.gang)
 
       let message = `✌ Список заместителей организации ${user.gang.name} ✌ \n`
       users.forEach(deputy => message += `ツ @id${deputy.vk} (${deputy.name}) \n`)

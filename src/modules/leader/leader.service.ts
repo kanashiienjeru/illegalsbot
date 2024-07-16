@@ -10,7 +10,7 @@ class LeaderService {
   public async setZam(link: string, gang: Gang) {
     const vkUser = await groupInstance.api.users.get({ user_ids: [link]})
     if (!vkUser[0]) throw Error('Не удалось найти указанного пользователя');
-    const [currentDeputies, count] = await this.myZams(gang)
+    const [currentDeputies, count] = await this.zams(gang)
     if (count >= 3) throw Error('У вас уже назначено три или более заместителей')
 
     const user = await this.userRepository.findOneBy({ vk: vkUser[0].id })
@@ -58,7 +58,16 @@ class LeaderService {
   }
 
 
-  public async myZams(gang: Gang) {
+  public async zams(gang: Gang | string) {
+    if (typeof(gang) === 'string') {
+      const gangResult = await this.gangRepository.findOneBy({ name: gang })
+
+      if (!gangResult) throw Error('Не удалось найти указанную организацию')
+
+      const result = await this.userRepository.findAndCountBy({ isDeputy: true, gang: gangResult })
+      
+      return result
+    }
     const result = await this.userRepository.findAndCountBy({ isDeputy: true, gang: gang })
     return result
   }
