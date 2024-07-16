@@ -29,47 +29,51 @@ export async function findClosestAdmin(nickname: string): Promise<any | null> {
 }
 
 export function processNewMail() {
-  imap.on('mail', function(numNewMsgs: number) {
-
-    // Fetch the new email(s) in the ARIZONA folder
-    // @ts-ignore
-    const f = imap.seq.fetch(`${imap._box.messages.total - numNewMsgs + 1}:*`, {
-      bodies: '',
-      struct: true
-    });
-
-    f.on('message', function(msg, seqno) {
-      msg.on('body', async function(stream: Source) {
-        simpleParser(stream, async (err, mail: ParsedMail) => {
-          if (err) throw err;
-          if (!mail) throw err
-
-          const stringWithLink = mail.text?.split('\n').filter(el => el !== '')[1]
-          if (!stringWithLink) return
-
-          const link = extractLink(stringWithLink)
-          const correctLink = link?.slice(0, link.length -1)
-
-          if (correctLink) {
-            const admin = mail.subject?.split('на администратора ')[1].split(' |')[0]
-            
-            if (!admin) return
-
-            const adminProfile = await findClosestAdmin(admin)
-
-            if (!adminProfile) return console.log('не нашел админа' + admin)
-
-            await sendReportLinkToAdmin(adminProfile.vk.id, correctLink)
-
-          }          
+try {
+    imap.on('mail', function(numNewMsgs: number) {
+  
+      // Fetch the new email(s) in the ARIZONA folder
+      // @ts-ignore
+      const f = imap.seq.fetch(`${imap._box.messages.total - numNewMsgs + 1}:*`, {
+        bodies: '',
+        struct: true
+      });
+  
+      f.on('message', function(msg, seqno) {
+        msg.on('body', async function(stream: Source) {
+          simpleParser(stream, async (err, mail: ParsedMail) => {
+            if (err) throw err;
+            if (!mail) throw err
+  
+            const stringWithLink = mail.text?.split('\n').filter(el => el !== '')[1]
+            if (!stringWithLink) return
+  
+            const link = extractLink(stringWithLink)
+            const correctLink = link?.slice(0, link.length -1)
+  
+            if (correctLink) {
+              const admin = mail.subject?.split('на администратора ')[1].split(' |')[0]
+              
+              if (!admin) return
+  
+              const adminProfile = await findClosestAdmin(admin)
+  
+              if (!adminProfile) return console.log('не нашел админа' + admin)
+  
+              await sendReportLinkToAdmin(adminProfile.vk.id, correctLink)
+  
+            }          
+          });
         });
       });
+  
+      f.once('error', function(err) {
+        console.log('Fetch error: ' + err);
+      });
     });
-
-    f.once('error', function(err) {
-      console.log('Fetch error: ' + err);
-    });
-  });
+} catch (error) {
+  console.log(error)
+}
 }
 
 
