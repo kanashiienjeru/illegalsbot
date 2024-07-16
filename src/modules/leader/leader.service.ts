@@ -39,8 +39,6 @@ class LeaderService {
   public async delZam(link: string, gang: Gang) {
     const vkUser = await groupInstance.api.users.get({ user_ids: [link]})
 
-    console.log(link)
-    console.log(vkUser)
     if (!vkUser[0]) throw Error('Не удалось найти указанного пользователя');
 
     const user = await this.userRepository.findOne({ where: { vk: vkUser[0].id }, relations: {gang: true}})

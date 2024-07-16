@@ -172,7 +172,6 @@ class UserService {
     }
 
     const result = await this.userRepository.findAndCount({ where: { isLeader: true }, relations: { gang: true }})
-    console.log(result)
     return result
   }
 }

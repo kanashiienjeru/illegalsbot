@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 import { executeMiddlewares } from './utils/executeMiddleware'
 import AppDataSource from './configs/database'
 import { imap } from './configs/mail'
-import { processNewMail } from './utils/mail'
+import { findClosestAdmin, processNewMail } from './utils/mail'
 
 dotenv.config()
 
@@ -31,6 +31,8 @@ userInstance.updates.start().catch(console.error)
 groupInstance.updates.start().catch(console.error)
 
 
+
+
 AppDataSource.initialize()
     .then(() => {
         console.log('connection is good')
@@ -47,5 +49,6 @@ imap.once('ready', async function () {
 });
 
 imap.connect()
+
 
 

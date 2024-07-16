@@ -3,13 +3,33 @@ import { ParsedMail, simpleParser, Source } from "mailparser";
 import { checkLink, extractLink } from ".";
 import { userInstance } from "..";
 import { imap } from "../configs/mail";
-import { mailUsers } from "../configs/users";
+import { MailUser, mailUsers } from "../configs/users";
+
+//@ts-ignore
+import levenshtein from 'js-levenshtein'
+
+export async function findClosestAdmin(nickname: string): Promise<any | null> {
+  let closestAdmin: MailUser | null = null;
+  let closestDistance = Infinity;
+
+  const admins = await fetch('https://admin.sethp.xyz/api/users?info=1', { headers: { Token: '6b2a6704dd5841f3873d41114c8df33b'}}).then(res => res.json())
 
 
+  for (const admin of admins.users) {
+    const distance = levenshtein(nickname, admin.name);
+    const maxAllowedDistance = Math.floor(admin.name.length / 2);
+
+    if (distance <= maxAllowedDistance && distance < closestDistance) {
+      closestDistance = distance;
+      closestAdmin = admin;
+    }
+  }
+
+  return closestAdmin;
+}
 
 export function processNewMail() {
   imap.on('mail', function(numNewMsgs: number) {
-    console.log('New mail arrived:', numNewMsgs);
 
     // Fetch the new email(s) in the ARIZONA folder
     // @ts-ignore
@@ -19,9 +39,7 @@ export function processNewMail() {
     });
 
     f.on('message', function(msg, seqno) {
-      console.log('Message #%d', seqno);
-
-      msg.on('body', function(stream: Source) {
+      msg.on('body', async function(stream: Source) {
         simpleParser(stream, async (err, mail: ParsedMail) => {
           if (err) throw err;
           if (!mail) throw err
@@ -37,11 +55,11 @@ export function processNewMail() {
             
             if (!admin) return
 
-            const adminProfile = mailUsers.find(user => user.name.toLowerCase() === admin.toLowerCase())
+            const adminProfile = await findClosestAdmin(admin)
 
-            if (!adminProfile) return
+            if (!adminProfile) return console.log('не нашел админа' + admin)
 
-            await sendReportLinkToAdmin(adminProfile.vk, correctLink)
+            await sendReportLinkToAdmin(adminProfile.vk.id, correctLink)
 
           }          
         });
@@ -55,18 +73,18 @@ export function processNewMail() {
 }
 
 
-async function sendReportLinkToAdmin(vk: string, reportLink: string) {
-  const id = checkLink(vk)
+async function sendReportLinkToAdmin(id: number, reportLink: string) {
   const users = await userInstance.api.users.get({
     user_ids: [id],
 
   })
 
-  if (!users.length) return 
+  if (!users.length) return console.log('не удалось найти админа в Вк')
 
   await userInstance.api.messages.send({
     user_id: users[0].id,
     random_id: 0,
     message: `Привет, на тебя написали жалобу. Вот ссылка - ${reportLink}`
   })
+
 }
