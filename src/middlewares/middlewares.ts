@@ -54,9 +54,9 @@ class Middlewares {
 
     context.user = user as User
 
-    if (!user.isLeader) await context.send(NO_ACCESS_MESSAGE)
+    if (!user.isLeader && user.level < 3) await context.send(NO_ACCESS_MESSAGE)
 
-    return user.isLeader
+    return true
   }
 }
 
