@@ -12,8 +12,11 @@ export async function findClosestAdmin(nickname: string): Promise<any | null> {
   let closestAdmin: MailUser | null = null;
   let closestDistance = Infinity;
 
-  const admins = await fetch('https://admin.sethp.xyz/api/users?info=1', { headers: { Token: '6b2a6704dd5841f3873d41114c8df33b'}}).then(res => res.json())
+  const admins = await fetch('https://admin.sethp.xyz/api/users?info=1', { headers: { Token: 'Bot-539c1ca288e54a798b71c684bb3361b5'}})
+  .then(res => res.json())
+  .catch(err => console.log(err))
 
+  if (!admins.users) throw Error('Не удалось получить список администрации')
 
   for (const admin of admins.users) {
     const distance = levenshtein(nickname, admin.name);
